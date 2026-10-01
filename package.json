@@ -1,0 +1,40 @@
+{
+  "name": "bizbell",
+  "version": "0.1.0",
+  "description": "BizBell 공고 API CLI — 창업지원·나라장터 입찰·기업지원·R&D 공고 검색, 즐겨찾기, 키워드 알림, MCP 서버",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://bizbell.site/docs/api",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bizbell-site/bizbell-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bizbell-site/bizbell-cli/issues"
+  },
+  "keywords": [
+    "bizbell",
+    "공고",
+    "정부지원사업",
+    "나라장터",
+    "mcp",
+    "agent-skills",
+    "cli"
+  ],
+  "type": "module",
+  "bin": {
+    "bizbell": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  }
+}

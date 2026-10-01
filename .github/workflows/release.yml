@@ -1,0 +1,37 @@
+# 태그 v* 를 push 하면 npm 에 게시한다.
+#   git tag v0.1.0 && git push origin v0.1.0
+#
+# 인증: 레포 시크릿 NPM_TOKEN (npmjs.com > Access Tokens > Granular, bizbell 패키지 Read and write).
+#
+# Trusted Publishing(OIDC, 토큰 없음)으로 바꾸려면
+#   1. npmjs.com > bizbell 패키지 > Settings > Trusted Publisher 에 GitHub Actions,
+#      bizbell-site/bizbell-cli, 워크플로 release.yml 을 등록한다(패키지가 한 번 게시된 뒤 가능).
+#   2. 아래 "npm 최신화" 주석을 풀고(npm 11.5.1+ 필요) publish 단계의 env 를 지운다.
+#   id-token: write 는 provenance 에도 필요해서 이미 켜 두었다.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      # - name: npm 최신화 (Trusted Publishing)
+      #   run: npm install -g npm@latest
+      - name: 태그와 package.json 버전 일치 확인
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: node --test
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
