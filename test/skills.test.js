@@ -10,7 +10,7 @@ import { buildSkillsIndex, DISCOVERY_SCHEMA, frontmatter } from '../scripts/buil
 
 const CLI_VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
 // npx 는 같은 원격 tarball URL 의 첫 설치본을 계속 재사용한다 — 버전이 박힌 URL 이어야 새 버전이 설치된다.
-const CLI_INVOCATION = `npx -y https://bizbell.site/cli/bizbell-${CLI_VERSION}.tgz`
+const CLI_INVOCATION = 'npx -y bizbell@latest'
 
 test('well-known 인덱스(v0.2.0): 이름·설명·상대 url·digest 가 스킬 파일과 맞는다', () => {
   const out = mkdtempSync(join(tmpdir(), 'bizbell-skills-'))

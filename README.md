@@ -6,8 +6,8 @@
 
 ```bash
 npx skills add https://bizbell.site                                           # 에이전트에 스킬 설치
-npx -y https://bizbell.site/cli/bizbell-0.1.0.tgz login                              # 구글 로그인 → API 키 저장
-npx -y https://bizbell.site/cli/bizbell-0.1.0.tgz search "AI 바우처" -c support --json
+npx -y bizbell@latest login                              # 구글 로그인 → API 키 저장
+npx -y bizbell@latest search "AI 바우처" -c support --json
 ```
 
 스킬은 GitHub 레포에서도 설치할 수 있습니다: `npx skills add bizbell-site/bizbell-cli`. 스킬은 `bizbell-notices`(공고 검색·조회)와 `bizbell-alerts`(즐겨찾기·키워드 알림) 두 개입니다.
@@ -23,7 +23,7 @@ bizbell alerts add --name "AI 바우처" -c support --include "AI,바우처" --r
 
 - `bizbell` 은 위 `npx -y …tgz` 실행 형태를 줄여 쓴 것입니다. 전체 명령: `bizbell --help`
 - 환경 변수: `BIZBELL_API_KEY`, `BIZBELL_API_BASE`
-- MCP: `claude mcp add bizbell -- npx -y https://bizbell.site/cli/bizbell-0.1.0.tgz mcp`
+- MCP: `claude mcp add bizbell -- npx -y bizbell@latest mcp`
 
 ## 출처 표기
 

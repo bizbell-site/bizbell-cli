@@ -13,7 +13,7 @@ metadata:
 
 # BizBell favorites and alerts
 
-`bizbell` in the commands below stands for `npx -y https://bizbell.site/cli/bizbell-0.1.0.tgz`. Use `bizbell` as is only if it is already installed. Always add `--json`. Sign in first as described in the bizbell-notices skill (`bizbell whoami --json`, then `BIZBELL_API_KEY` or `bizbell login`).
+`bizbell` in the commands below stands for `npx -y bizbell@latest`. Use `bizbell` as is only if it is already installed. Always add `--json`. Sign in first as described in the bizbell-notices skill (`bizbell whoami --json`, then `BIZBELL_API_KEY` or `bizbell login`).
 
 ## Ask before changing anything
 
