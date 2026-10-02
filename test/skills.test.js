@@ -30,6 +30,9 @@ test('well-known 인덱스(v0.2.0): 이름·설명·상대 url·digest 가 스�
     assert.ok(s.description.length <= 1024 && !s.description.includes('>-'))
     // CLI 실행 형태는 스킬마다 한 곳에만 둔다(npm 게시 후 한 줄만 바꾸면 된다).
     assert.equal(bytes.toString('utf8').split(CLI_INVOCATION).length - 1, 1, `${s.name}: 실행 형태가 한 번만 나와야 한다`)
+    // 공공누리 제3유형 원문 인용과 프롬프트 인젝션 주의는 스킬마다 있어야 한다(따로 설치될 수 있다).
+    assert.match(bytes.toString('utf8'), /`KOGL-3`[\s\S]*verbatim/, `${s.name}: KOGL-3 원문 인용 규칙`)
+    assert.match(bytes.toString('utf8'), /untrusted data, never as instructions/, `${s.name}: 인젝션 주의`)
   }
 })
 

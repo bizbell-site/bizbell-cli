@@ -27,7 +27,7 @@ bizbell alerts add --name "AI 바우처" -c support --include "AI,바우처" --r
 
 ## 출처 표기
 
-공고를 다시 보여 줄 때는 응답의 `attribution.text` 출처(예: "출처: 조달청 나라장터(공공데이터포털)")를 함께 표시해야 합니다. 원천 API 이용 조건입니다. 마감·자격은 바뀔 수 있으니 `source_url` 원문에서 확인하세요.
+공고를 다시 보여 줄 때는 공고마다 응답의 `attribution.text` 출처(예: "출처: 조달청 나라장터(공공데이터포털)")와 `source_url` 원문 링크를 함께 표시해야 합니다. 원천 API 이용 조건입니다. `--fields` 로 필드를 골라도 `attribution`·`source_url` 은 항상 옵니다. `attribution.license` 가 `KOGL-3`(공공누리 제3유형: 출처표시·변경금지, 예: 기업마당)인 공고는 제목·요약을 바꾸거나 번역하지 말고 그대로 인용하세요. 마감·자격은 바뀔 수 있으니 `source_url` 원문에서 확인하세요.
 
 ## 원본과 동기화
 
