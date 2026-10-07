@@ -1,6 +1,6 @@
 {
   "name": "bizbell",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "BizBell 공고 API CLI — 창업지원·나라장터 입찰·기업지원·R&D 공고 검색, 즐겨찾기, 키워드 알림, MCP 서버",
   "license": "MIT",
   "private": false,

@@ -238,6 +238,7 @@ describe('로그인', () => {
     assert.match(login.stderr, /\/cli\/activate\?code=ABCD-1234/)
     assert.match(login.stderr, /코드: ABCD-1234/)
     assert.deepEqual(fake.calls.filter((c) => c.path === '/api/cli/device/token').at(-1).body, { device_code: 'dev_123' })
+    assert.match(fake.calls.filter((c) => c.path === '/api/cli/device').at(-1).body.client_name, /^bizbell CLI \(.+\)$/, '컴퓨터 이름 대신 운영체제만 보낸다')
     assert.equal(login.json().authenticated, true)
 
     assert.equal(JSON.parse(readFileSync(r.credentials, 'utf8')).api_key, GOOD_KEY)
@@ -251,6 +252,12 @@ describe('로그인', () => {
     const gone = await r.run(['whoami'])
     assert.equal(gone.code, 3)
     assert.equal(gone.json().authenticated, false)
+  })
+
+  test('--device-name 으로 승인 화면에 보일 이름을 정한다', async () => {
+    const r = makeRunner(fake.base)
+    assert.equal((await r.run(['login', '--device-name', '사무실 노트북'])).code, 0)
+    assert.deepEqual(fake.calls.filter((c) => c.path === '/api/cli/device').at(-1).body, { client_name: '사무실 노트북' })
   })
 
   test('--api-key 는 확인한 뒤에만 저장한다(- 는 stdin)', async () => {

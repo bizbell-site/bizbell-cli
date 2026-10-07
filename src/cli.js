@@ -2,7 +2,6 @@
 // @ts-check
 import { spawn } from 'node:child_process'
 import { readFileSync } from 'node:fs'
-import { hostname } from 'node:os'
 import { createInterface } from 'node:readline/promises'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { parseArgs } from 'node:util'
@@ -28,6 +27,7 @@ const HELP = `bizbell ${VERSION} — 한국 정부지원·입찰 공고 API CLI
 
 인증
   login [--api-key <키>|-] [--no-browser]   구글 계정으로 로그인해 API 키를 저장합니다
+        [--device-name 이름]                로그인 승인 화면에 보일 이름(기본: 운영체제 종류)
   logout                                    저장한 API 키를 지웁니다
   whoami                                    로그인 상태·플랜을 봅니다
   usage                                     이번 달 사용량을 봅니다
@@ -114,12 +114,16 @@ function openUrl(url) {
   spawn(cmd, [url], { stdio: 'ignore', detached: true }).on('error', () => {}).unref()
 }
 
+/** @type {Record<string, string>} */
+const OS_NAMES = { darwin: 'macOS', win32: 'Windows', linux: 'Linux' }
+
 /** 디바이스 코드 로그인: 코드 발급 → 사용자가 브라우저에서 승인 → 토큰 폴링. @param {Ctx} ctx */
 async function deviceLogin(ctx) {
   const start = await request('POST', '/device', {
     base: CLI_BASE,
     auth: false,
-    body: { client_name: `bizbell-cli on ${hostname()}` },
+    // 컴퓨터 이름(hostname)에는 사람 이름이 들어가곤 해서 보내지 않는다 — 운영체제 종류나 사용자가 정한 이름만.
+    body: { client_name: ctx.values['device-name'] || `bizbell CLI (${OS_NAMES[process.platform] ?? process.platform})` },
   })
   const url =
     start.verification_uri_complete ??
@@ -159,7 +163,7 @@ async function deviceLogin(ctx) {
 /** @type {Record<string, Command>} */
 const COMMANDS = {
   login: {
-    options: { 'no-browser': B },
+    options: { 'no-browser': B, 'device-name': S },
     async run(ctx) {
       const flag = ctx.values['api-key']
       let apiKey, email
