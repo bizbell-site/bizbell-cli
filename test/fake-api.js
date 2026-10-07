@@ -106,6 +106,10 @@ export async function startFakeApi() {
         return send(429, err('quota_exceeded', '이번 달 무료 호출을 모두 썼습니다.', { hint: 'bizbell usage', reset_at: '2026-11-01T00:00:00+09:00' }))
       }
       if (url.searchParams.get('limit') === '999') return send(422, err('invalid_parameter', 'limit 은 1~50 입니다.'))
+      if (url.searchParams.get('q') === 'announce') {
+        const announcements = [{ id: 'sunset-v0', posted: '2026-10-03', effective: '2027-01-01', text: 'v0 필드 종료 예정', url: 'https://bizbell.site/docs/api#announcements' }]
+        return send(200, { data: NOTICES, next_cursor: null, total: 2, meta: { ...meta, announcements } })
+      }
       return send(200, { data: NOTICES, next_cursor: 'cur_2', total: 2, meta })
     }
     if (req.method === 'GET' && resource === 'notices' && id) {

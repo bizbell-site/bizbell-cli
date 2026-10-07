@@ -338,6 +338,10 @@ async function main(argv) {
     const { key, source } = resolveKey(/** @type {string | undefined} */ (values['api-key']))
     const result = await command.run({ values, positionals, key, keySource: source, format })
     if (result !== undefined) print(format, result, command.columns)
+    // 공고 API 공지(약관 제13조의2제1항나목·제25조)는 표·JSON 출력과 섞이지 않게 stderr 로 알린다.
+    for (const a of /** @type {any} */ (result)?.meta?.announcements ?? []) {
+      process.stderr.write(`공지: ${a.text}${a.effective ? ` (시행 ${a.effective})` : ''}${a.url ? ` ${a.url}` : ''}\n`)
+    }
   } catch (e) {
     const parseError = /** @type {any} */ (e).code?.startsWith?.('ERR_PARSE_ARGS')
     const err =

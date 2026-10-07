@@ -27,7 +27,9 @@ try {
     execFileSync('npm', ['pack', '--json', '--pack-destination', tmp], { cwd: pkgDir, encoding: 'utf8' }),
   )
   mkdirSync(join(outDir, 'cli'), { recursive: true })
-  for (const name of ['bizbell.tgz', `bizbell-${version}.tgz`]) copyFileSync(join(tmp, filename), join(outDir, 'cli', name))
+  // 2026-10-02 이전에 설치된 스킬은 bizbell-0.1.0.tgz 를 이름으로 부른다 — 버전을 올려도 그 이름으로 최신본을 계속 둔다.
+  const names = new Set(['bizbell.tgz', `bizbell-${version}.tgz`, 'bizbell-0.1.0.tgz'])
+  for (const name of names) copyFileSync(join(tmp, filename), join(outDir, 'cli', name))
   console.log(`→ ${join(outDir, 'cli', 'bizbell.tgz')} (${version})`)
 } finally {
   rmSync(tmp, { recursive: true, force: true })

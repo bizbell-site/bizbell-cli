@@ -62,7 +62,7 @@ export const TOOLS = [
   {
     name: 'list_favorites',
     title: '즐겨찾기 목록',
-    description: '사용자가 저장한 관심 공고(즐겨찾기) 목록을 가져온다.',
+    description: `사용자가 저장한 관심 공고(즐겨찾기) 목록을 가져온다. notice 가 없는(원천에서 내려간) 항목은 저장 당시 제목만 남으므로 공고로 소개하지 않는다. ${ANSWER_RULES}`,
     inputSchema: obj({
       status: { type: 'string', enum: ['active', 'expired', 'all'], default: 'active' },
       limit: { type: 'integer', minimum: 1, maximum: 50 },

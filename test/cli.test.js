@@ -111,6 +111,13 @@ describe('자격증명 우선순위: --api-key > BIZBELL_API_KEY > 파일', () =
 })
 
 describe('공고 검색·상세 (가짜 API end-to-end)', () => {
+  test('응답 meta.announcements 공지는 stdout 을 건드리지 않고 stderr 로 알린다', async () => {
+    const r = await cli.run(['search', 'announce'], withKey)
+    assert.equal(r.code, 0, r.stderr)
+    assert.equal(r.json().data.length, 2)
+    assert.match(r.stderr, /공지: v0 필드 종료 예정 \(시행 2027-01-01\) https:\/\/bizbell\.site\/docs\/api#announcements/)
+  })
+
   test('search 는 옵션을 API 쿼리로 옮기고 파이프면 JSON 을 낸다', async () => {
     const r = await cli.run(
       ['search', 'AI', '바우처', '-c', 'bid', '-c', 'startup,rnd', '--region', '서울', '--org', '중기부', '--deadline-within', '7', '--always-open', '--limit', '5'],
